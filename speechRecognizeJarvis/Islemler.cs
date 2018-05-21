@@ -96,7 +96,8 @@ namespace speechRecognizeJarvis
 
         public void jarvis()
         {
-            // bu fonk. kamera isigini yakip sondurup ve caps lock tusuna basar. ( Amac jarvis sesi geldiğinde kullanıcıya bunu algıladığını isaret vermektir. )
+            // bu fonk. kamerayı calistirarak kamera isigini yanip sonmesini saglar ve ses dosyası oynatır.
+            //( Amac jarvis kelimesi soylendiginde kullanıcıya bunu algıladığını isaret vermektir. )
             Console.WriteLine("- - - -jarvis- - -- ");
 
             InputSimulator sim = new InputSimulator();
