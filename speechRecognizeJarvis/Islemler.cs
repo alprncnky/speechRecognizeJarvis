@@ -14,7 +14,6 @@ using System.Security.Permissions;
 
 namespace speechRecognizeJarvis
 {
-
     internal static class NativeMethods
     {
         [DllImport("kernel32.dll")]
@@ -26,8 +25,9 @@ namespace speechRecognizeJarvis
         [DllImport("user32.dll")]
         static extern bool SetCursorPos(int X, int Y);
 
-
-        string path = @"C:\Users\alperen\Documents\Jarvis\program data\jarvis.wav";     // !!! farkli pc de degistir  !!!  jarvis ses dosyasi
+        string path = "..\\..\\..\\data\\jarvis.wav";     // !!! farkli pc de degistir  !!!  jarvis ses dosyasi
+        string hangitur_path = "..\\..\\..\\data\\hangitur.wav";       // !!! farkli pc de degistir  !!!  "hangitur film istersiniz" ses dosyasi
+        string oneriler_path = "..\\..\\..\\data\\oneriler.wav";       // !!! farkli pc de degistir  !!!  "hangitur film istersiniz" ses dosyasi
         string wp_path = @"C:\Users\alperen\AppData\Local\WhatsApp\WhatsApp.exe";        // !!! farkli pc de degistir  !!!  whatsapp.exe calistirmak icin exe konumu
         Thread tid1;
         html h = new html();
@@ -165,6 +165,10 @@ namespace speechRecognizeJarvis
         {
             // hangi kategoride film istersiniz?
             // ses
+            using (var soundPlayer = new SoundPlayer(hangitur_path))
+            {
+                soundPlayer.Play();
+            }
             Console.WriteLine(" ***** fonskiyona girdi");
         }
 
@@ -173,6 +177,11 @@ namespace speechRecognizeJarvis
             // filmler listeleniyor
             //ses
             // pencerede ac film resmini ve ismini
+            using (var soundPlayer = new SoundPlayer(oneriler_path))
+            {
+                soundPlayer.Play();
+            }
+
             h.str_yukle(1);
             filmName = h.filmIsimleri[filmNo];
             filmPhoto = h.filmresimleri[filmNo];

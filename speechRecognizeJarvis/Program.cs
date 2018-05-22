@@ -34,7 +34,6 @@ namespace speechRecognizeJarvis
             engine.RecognizeAsync(RecognizeMode.Multiple);
             engine.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(engine_SpeechRecognized);
             Console.ReadLine();
-            
         }
 
         static void engine_SpeechRecognized(object ob, SpeechRecognizedEventArgs e)
