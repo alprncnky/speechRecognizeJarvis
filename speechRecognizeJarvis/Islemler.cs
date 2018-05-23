@@ -205,7 +205,6 @@ namespace speechRecognizeJarvis
         {
             // yeni film oneri
             int filmturu = rastgele_sayi(3) + 1;        //   hangi iflm?  1=bilimurgu 2=aksiyon 3=savas
-            Console.WriteLine("FİLMTURU :" + filmturu);
             filmNo++;          // elimzdeki film sayısını asmamak icin deger tut
 
             tid1.Abort();               // onceki acik pencereyi kapat
@@ -216,19 +215,16 @@ namespace speechRecognizeJarvis
                 {
                     filmName = h.filmIsimleri[filmNo];
                     filmPhoto = h.filmresimleri[filmNo];
-                    Console.WriteLine("film1 :" + filmName);
                 }
                 if (filmturu == 2)
                 {
                     filmName = h2.filmIsimleri[filmNo];
                     filmPhoto = h2.filmresimleri[filmNo];
-                    Console.WriteLine("film2 :" + filmName);
                 }
                 if (filmturu == 3)
                 {
                     filmName = h3.filmIsimleri[filmNo];
                     filmPhoto = h3.filmresimleri[filmNo];
-                    Console.WriteLine("film3 :" + filmName);
                 }
                 tid1 = new Thread(new ThreadStart(Islemler.Thread1));
                 tid1.Start();
@@ -241,20 +237,6 @@ namespace speechRecognizeJarvis
                     soundPlayer.Play();
                 }
             }
-
-            /*
-            // yeni film öneri
-            if (filmNo <= 5)
-            {
-                tid1.Abort();
-                SetCursorPos(960, 540);
-                filmNo++;
-                filmName = h.filmIsimleri[filmNo];
-                filmPhoto = h.filmresimleri[filmNo];
-                tid1 = new Thread(new ThreadStart(Islemler.Thread1));
-                tid1.Start();
-            }
-            */
         }
 
         public int rastgele_sayi(int max)
