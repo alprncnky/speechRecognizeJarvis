@@ -28,6 +28,11 @@ namespace speechRecognizeJarvis
                 // aksiyon sayfasi
                 raw = wc.DownloadData("https://www.fullhdfilmizlesene.org/filmrobot/?tarz=&tur=3&yil=&imdb=7x&hd=");
             }
+            else if(sayfa==3)
+            {
+                // savas filmleri sayfasi
+                raw = wc.DownloadData("https://www.fullhdfilmizlesene.org/filmrobot/?tarz=&tur=15&yil=&imdb=7x&hd=");
+            }
             else
             {
                 raw = wc.DownloadData("https://www.fullhdfilmizlesene.org/");
@@ -75,7 +80,7 @@ namespace speechRecognizeJarvis
                     sayi++;
                     kelime = true;
                 }
-                if (count == 5)         // toplam 5 film alınca duruyor.
+                if (count == 8)         // toplam 8 film alınca duruyor.
                     devam = false;
                 sayi++;
             }
@@ -118,7 +123,7 @@ namespace speechRecognizeJarvis
                     sayi++;
                     kelime = true;
                 }
-                if (count == 5)         // toplam 5 film alınca duruyor.
+                if (count == 8)         // toplam 8 film alınca duruyor.
                     devam = false;
                 sayi++;
             }

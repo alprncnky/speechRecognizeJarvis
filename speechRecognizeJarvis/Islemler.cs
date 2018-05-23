@@ -26,11 +26,16 @@ namespace speechRecognizeJarvis
         static extern bool SetCursorPos(int X, int Y);
 
         string path = "..\\..\\..\\data\\jarvis.wav";     // !!! farkli pc de degistir  !!!  jarvis ses dosyasi
-        string hangitur_path = "..\\..\\..\\data\\hangitur.wav";       // !!! farkli pc de degistir  !!!  "hangitur film istersiniz" ses dosyasi
         string oneriler_path = "..\\..\\..\\data\\oneriler.wav";       // !!! farkli pc de degistir  !!!  "hangitur film istersiniz" ses dosyasi
+        string oneritamam_path = "..\\..\\..\\data\\oneritamam.wav";       // !!! farkli pc de degistir  !!!  "hangitur film istersiniz" ses dosyasi
         string wp_path = @"C:\Users\alperen\AppData\Local\WhatsApp\WhatsApp.exe";        // !!! farkli pc de degistir  !!!  whatsapp.exe calistirmak icin exe konumu
-        Thread tid1;
-        html h = new html();
+
+        Thread tid1;        // winform islemi icin thread olustur
+        Random random = new Random();   // for random number
+
+        html h = new html();    // bilim kurgu filmleri sayfasi
+        html h2 = new html();   // aksiyon filmleri sayfasi
+        html h3 = new html();   // savas filmleri sayfasi
 
         public static string filmPhoto = "";
         public static string filmName = "";
@@ -82,7 +87,13 @@ namespace speechRecognizeJarvis
                     break;
 
                 case 6:
+                    // filim bul
                     filmgetir();
+                    break;
+
+                case 7:
+                    // degistir
+                    degistir();
                     break;
 
                 default:
@@ -158,20 +169,6 @@ namespace speechRecognizeJarvis
         }
 
 
-
-
-
-        public void filmoner()
-        {
-            // hangi kategoride film istersiniz?
-            // ses
-            using (var soundPlayer = new SoundPlayer(hangitur_path))
-            {
-                soundPlayer.Play();
-            }
-            Console.WriteLine(" ***** fonskiyona girdi");
-        }
-
         public void filmgetir()
         {
             // filmler listeleniyor
@@ -182,7 +179,10 @@ namespace speechRecognizeJarvis
                 soundPlayer.Play();
             }
 
-            h.str_yukle(1);
+            h.str_yukle(1);     // filmleri stringlere yukleyip nesneden cagirmaya hazir hale getiriyoruz
+            h2.str_yukle(2);
+            h3.str_yukle(3);
+
             filmName = h.filmIsimleri[filmNo];
             filmPhoto = h.filmresimleri[filmNo];
 
@@ -203,6 +203,46 @@ namespace speechRecognizeJarvis
 
         public void degistir()
         {
+            // yeni film oneri
+            int filmturu = rastgele_sayi(3) + 1;        //   hangi iflm?  1=bilimurgu 2=aksiyon 3=savas
+            Console.WriteLine("FİLMTURU :" + filmturu);
+            filmNo++;          // elimzdeki film sayısını asmamak icin deger tut
+
+            tid1.Abort();               // onceki acik pencereyi kapat
+            SetCursorPos(960, 540);
+            if (filmNo < 8)
+            {
+                if (filmturu == 1)
+                {
+                    filmName = h.filmIsimleri[filmNo];
+                    filmPhoto = h.filmresimleri[filmNo];
+                    Console.WriteLine("film1 :" + filmName);
+                }
+                if (filmturu == 2)
+                {
+                    filmName = h2.filmIsimleri[filmNo];
+                    filmPhoto = h2.filmresimleri[filmNo];
+                    Console.WriteLine("film2 :" + filmName);
+                }
+                if (filmturu == 3)
+                {
+                    filmName = h3.filmIsimleri[filmNo];
+                    filmPhoto = h3.filmresimleri[filmNo];
+                    Console.WriteLine("film3 :" + filmName);
+                }
+                tid1 = new Thread(new ThreadStart(Islemler.Thread1));
+                tid1.Start();
+            }
+            else
+            {
+                // ses oneriler tamamlandı
+                using (var soundPlayer = new SoundPlayer(oneritamam_path))
+                {
+                    soundPlayer.Play();
+                }
+            }
+
+            /*
             // yeni film öneri
             if (filmNo <= 5)
             {
@@ -214,6 +254,13 @@ namespace speechRecognizeJarvis
                 tid1 = new Thread(new ThreadStart(Islemler.Thread1));
                 tid1.Start();
             }
+            */
+        }
+
+        public int rastgele_sayi(int max)
+        {
+            int randomNumber = random.Next(0,max);
+            return randomNumber;
         }
 
     }
