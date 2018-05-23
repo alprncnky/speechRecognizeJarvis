@@ -93,6 +93,7 @@ namespace speechRecognizeJarvis
 
                 case 7:
                     // degistir
+                    // gec
                     degistir();
                     break;
 
