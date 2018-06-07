@@ -11,6 +11,7 @@ using System.Media;
 using System.Windows.Forms;
 using System.Threading;
 using System.Security.Permissions;
+using System.Data.SQLite;
 
 namespace speechRecognizeJarvis
 {
@@ -239,6 +240,13 @@ namespace speechRecognizeJarvis
                 }
             }
         }
+
+        public void dizihistory()
+        {
+            Dizihistory dizinesne = new Dizihistory();
+            dizinesne.chrome_history();
+        }
+
 
         public int rastgele_sayi(int max)
         {

@@ -9,6 +9,7 @@ namespace speechRecognizeJarvis
     class Komutlar
     {
         // yeni komut olursa bu string lere olusabilecek ses leri ekle
+        //TODO : bunları dosyaya aktar
         public int komutSayisi;
         string[] komutlar1 = { "Jurors", ": who",   "We have" , "ZZ" ,      "you"           ,"wants so"     , "favor", "dishes", "vhvvv" };         // birebir eşit olan
         string[] komutlar2 = { "Jones",  ":"    ,   "will have" , "disease" ,    "to"       ,"loss of"      , "fewer", "BHD", "vhvvv" };         // birebir eşit olan
@@ -19,7 +20,7 @@ namespace speechRecognizeJarvis
         string[] komutlar7 = { "germs", "Portland" ,"with" , "large", "wexrdctfvy"          ,"will see"     , "few", "dish", "vhvvv" };
         string[] komutlar8 = { "James", ": school" ,"to have" , "zero", "wexrdctfvun"       ,"fdsfs"        , "fitting", "issue", "vhvvv" };
         string[] komutlar9 = { "Jacques", "forms", "than have" , "easy", "wexrdctfvyn"      ,"fdsfs"        , "feet", "beach", "vhvvv" };
-        string[] komutlar10 = { "jackie", "four", "one more", "to dispatch", "wexrdctfvn"       ,"lots of"  , "team", "vhvvv", "vhvvv" };
+        string[] komutlar10 = { "jackie", "four", "one more", "to dispatch", "wexrdctfvn"       ,"lots of"  , "team", "based", "vhvvv" };
         string[] komutlar11 = { "generous", "formed", "when" , "ZF", "wexrdctfv"        , "wants"           , "fee", "each", "vhvvv" };         // birebir eşit olan
         string[] komutlar12 = { "jytvbnun", "jytvbnun", "who have", "search", "wexrdctf"    , "also"        , "fever", "gets", "vhvvv" };         // birebir eşit olan
 
