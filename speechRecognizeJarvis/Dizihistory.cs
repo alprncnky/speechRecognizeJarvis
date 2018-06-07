@@ -13,8 +13,8 @@ namespace speechRecognizeJarvis
     class Dizihistory
     {
         string path = "..\\..\\..\\logs\\dizi.txt";
-        string dizi_name = "The-Forest";
-        string dizi_link = "https://www.dizibox5.com/The-Forest-2-sezon-9-bolum-izle/";      // netten gelen link
+        string dizi_name = "";      // findName() de bulundu
+        string dizi_link = "";      // netten gelen link
         string o_link = "";         // dosyadan gelen link
         public int input_dizi_sezon, saved_dizi_sezon;               // gelen ve kayitli dizinin kacinci sezon oldugu
         public int input_dizi_bolum, saved_dizi_bolum;               // gelen ve kayitli  dizinin kacinci bolum oldugu
@@ -47,11 +47,18 @@ namespace speechRecognizeJarvis
                 // fill the dizi_link and dizi_name !
                 dizi_link = dr[1].ToString();
                 findName();
-                //Console.WriteLine(dr[1].ToString());
+                if (dizi_name.Length < 50)
+                {
+                    Dizinfo();
+                    savedDizi();
+                    matchedDizi();
+                }           
+               // Console.WriteLine(dr[1].ToString());
             }
         }
 
         // netten gelen dizinin adini bul
+        // TODO HATA the-americans/5-sezon tarzi hata name
         public void findName()
         {
             // sezon kelimesini bul sonra 2 itre olunca toplamay basla / olunca dur
@@ -59,12 +66,17 @@ namespace speechRecognizeJarvis
             string temp = "";
             int sLoc = dizi_link.IndexOf("sezon");
             int tireCount = 0;
-            while (dizi_link[sLoc] != '/')
+            int slash = 0;
+            while (slash<2)
             {
-                if (tireCount > 1)
+                if (dizi_link[sLoc] == '/')
+                    slash++;
+                if (tireCount > 1 && slash<2)
                     temp += dizi_link[sLoc];
-                if (dizi_link[sLoc] == '-')
+                if (dizi_link[sLoc] == '-' || dizi_link[sLoc] == '/')
+                {
                     tireCount++;
+                }
                 sLoc--;
             }
             char[] arr = temp.ToCharArray();
@@ -76,10 +88,9 @@ namespace speechRecognizeJarvis
 
         // dizi leri karsilastirip yapilacak islemi secme fonksiyonu
         public void matchedDizi()
-        {
+        {            
             tempdosya = "";
             string readText = System.IO.File.ReadAllText(path);
-            Dizinfo();
             if(readText.Contains(dizi_name))
             {
                 // dosyadaki diziden buyuk mu kontrol et buyukse dosyayı yenile
@@ -102,7 +113,7 @@ namespace speechRecognizeJarvis
                 }
                 else if(input_dizi_sezon==saved_dizi_sezon)     // sezonlar esit bolum buyukse
                 {
-                    if(input_dizi_bolum>saved_dizi_bolum)
+                    if (input_dizi_bolum>saved_dizi_bolum)
                     {
                         // guncelle
                         int i = 0;
@@ -144,20 +155,28 @@ namespace speechRecognizeJarvis
         {
             o_link = "";
             string readText = System.IO.File.ReadAllText(path);
-            int temp = readText.IndexOf(dizi_name);
-            while (readText[temp] != '*')
-                temp--;
-            temp = temp + 1;     
-            silinecekLine_start = temp;         // yıldızdan sonraki harf
-            while (readText[temp] != '*')
-                temp++;
-            silinecekLine_son = temp;       // yıldız dahil
-            for(int i=silinecekLine_start;i<silinecekLine_son;i++)
+            if (readText.Contains(dizi_name))
             {
-                o_link+=readText[i];
+                int temp = readText.IndexOf(dizi_name);
+                while (readText[temp] != '*')
+                    temp--;
+                temp = temp + 1;
+                silinecekLine_start = temp;         // yıldızdan sonraki harf
+                while (readText[temp] != '*')
+                    temp++;
+                silinecekLine_son = temp;       // yıldız dahil
+                for (int i = silinecekLine_start; i < silinecekLine_son; i++)
+                {
+                    o_link += readText[i];
+                }
+                outputmu = true;
+                Dizinfo();
             }
-            outputmu = true;
-            Dizinfo();
+            else
+            {
+                saved_dizi_sezon = 0;
+                saved_dizi_bolum = 0;
+            }
         }
 
 
@@ -176,7 +195,7 @@ namespace speechRecognizeJarvis
             while (tirecount < 2)                              // geri dogru git
             {
                 temp--;
-                if (d_link[temp] == '-')
+                if (d_link[temp] == '-' || d_link[temp]=='/')
                 {
                     tirecount++;
                 }
@@ -188,7 +207,7 @@ namespace speechRecognizeJarvis
                 dizi_sezon += d_link[temp];
                 temp++;
             }
-            if(outputmu)
+            if (outputmu)
                 saved_dizi_sezon= Convert.ToInt32(dizi_sezon);
             else
                 input_dizi_sezon = Convert.ToInt32(dizi_sezon);
@@ -207,7 +226,7 @@ namespace speechRecognizeJarvis
                     temp++;
                 }
             }
-            if(outputmu)
+            if (outputmu)
                 saved_dizi_bolum= Convert.ToInt32(dizi_bolum);
             else
                 input_dizi_bolum = Convert.ToInt32(dizi_bolum);

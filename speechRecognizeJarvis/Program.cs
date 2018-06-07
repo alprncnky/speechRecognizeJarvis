@@ -26,7 +26,8 @@ namespace speechRecognizeJarvis
         static void Main(string[] args)
         {
             Dizihistory h = new Dizihistory();
-            h.matchedDizi();
+            h.chrome_history();
+            Console.ReadKey();
 
             /*
             activate = false;
