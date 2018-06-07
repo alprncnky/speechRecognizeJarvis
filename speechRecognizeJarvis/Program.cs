@@ -25,10 +25,6 @@ namespace speechRecognizeJarvis
 
         static void Main(string[] args)
         {
-            Dizihistory h = new Dizihistory();
-            h.chrome_history();
-            Console.ReadKey();
-            
             activate = false;
             t = 0;
             t2 = 0;
