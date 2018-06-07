@@ -28,8 +28,7 @@ namespace speechRecognizeJarvis
             Dizihistory h = new Dizihistory();
             h.chrome_history();
             Console.ReadKey();
-
-            /*
+            
             activate = false;
             t = 0;
             t2 = 0;
@@ -40,8 +39,7 @@ namespace speechRecognizeJarvis
             engine.RecognizeAsync(RecognizeMode.Multiple);
             engine.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(engine_SpeechRecognized);
             Console.ReadLine();
-            */
-
+            
         }
 
         static void engine_SpeechRecognized(object ob, SpeechRecognizedEventArgs e)
