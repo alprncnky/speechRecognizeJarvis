@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,14 +13,21 @@ namespace speechRecognizeJarvis
     class Dizihistory
     {
         string path = "..\\..\\..\\logs\\dizi.txt";
-        string dizi_name = "humans";
-        string dizi_link = "https://www.dizibox5.com/humans-2-sezon-8-bolum-izle/";      // netten gelen link
+        string dizi_name = "The-Forest";
+        string dizi_link = "https://www.dizibox5.com/The-Forest-2-sezon-9-bolum-izle/";      // netten gelen link
         string o_link = "";         // dosyadan gelen link
         public int input_dizi_sezon, saved_dizi_sezon;               // gelen ve kayitli dizinin kacinci sezon oldugu
         public int input_dizi_bolum, saved_dizi_bolum;               // gelen ve kayitli  dizinin kacinci bolum oldugu
         int silinecekLine_start, silinecekLine_son;             // en son dosya guncellenirken bu satır araligini yazdirma !
         bool outputmu = false;                                // Dizinfo() fonksiyonuna sonradan matchedDizi() fonksiyonundan erisim olursa diye bunu ekledim sonradan
+        string tempdosya = "";                               // dosyaya yazdırılcak olan string guncellenmeis olan
 
+        public Dizihistory()
+        {
+            // eger logs dosyasi icinde dizi.txt yoksa olustur
+            if(!File.Exists(path))
+                File.WriteAllText(path,"");
+        }
 
         // chrome kapalıylen calismasi lazim    ! HATA !
         // Bu olay zaman ayarlı task olarak yap
@@ -36,17 +44,42 @@ namespace speechRecognizeJarvis
             SQLiteDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
             {
-                // TODO: dizi_name ayarla  !!!
-                // bolum ve sezon kelimleri geciyorsa gecerli fonskiyonlari cagir
-                Console.WriteLine(dr[1].ToString());
+                // fill the dizi_link and dizi_name !
+                dizi_link = dr[1].ToString();
+                findName();
+                //Console.WriteLine(dr[1].ToString());
             }
+        }
+
+        // netten gelen dizinin adini bul
+        public void findName()
+        {
+            // sezon kelimesini bul sonra 2 itre olunca toplamay basla / olunca dur
+            dizi_name = "";
+            string temp = "";
+            int sLoc = dizi_link.IndexOf("sezon");
+            int tireCount = 0;
+            while (dizi_link[sLoc] != '/')
+            {
+                if (tireCount > 1)
+                    temp += dizi_link[sLoc];
+                if (dizi_link[sLoc] == '-')
+                    tireCount++;
+                sLoc--;
+            }
+            char[] arr = temp.ToCharArray();
+            Array.Reverse(arr);
+            temp = new string(arr);
+            dizi_name = temp;
         }
 
 
         // dizi leri karsilastirip yapilacak islemi secme fonksiyonu
         public void matchedDizi()
         {
+            tempdosya = "";
             string readText = System.IO.File.ReadAllText(path);
+            Dizinfo();
             if(readText.Contains(dizi_name))
             {
                 // dosyadaki diziden buyuk mu kontrol et buyukse dosyayı yenile
@@ -54,17 +87,55 @@ namespace speechRecognizeJarvis
                 Dizinfo();
                 if(input_dizi_sezon>saved_dizi_sezon)
                 {
+                    // guncelle
+                    int i = 0;
+                    bool devam = true;
+                    while(devam && i<readText.Length)
+                    {
+                        if (i<silinecekLine_start || i >silinecekLine_son)
+                        {
+                            tempdosya += readText[i];
+                        }
+                        i++;
+                    }
+                    ekleDizi();
+                }
+                else if(input_dizi_sezon==saved_dizi_sezon)     // sezonlar esit bolum buyukse
+                {
                     if(input_dizi_bolum>saved_dizi_bolum)
                     {
                         // guncelle
+                        int i = 0;
+                        bool devam = true;
+                        while (devam && i < readText.Length)
+                        {
+                            if (i < silinecekLine_start || i > silinecekLine_son)
+                            {
+                                tempdosya += readText[i];
+                            }
+                            i++;
+                        }
+                        ekleDizi();
                     }
                 }
                 // else birşey yapma
             }
-            else
+            else if(dizi_name.Length<40)        // sacma reklam linkleri takiliyor o linkleri almamak icin <40 dedim
             {
                 // yeni bir dizi olmali bunu ekle dosyaya
+                tempdosya = readText;
+                ekleDizi();
             }
+        }
+        
+        // dosyanın sonuna dizi link ekleyip yazdirma
+        public void ekleDizi()
+        {
+            if (tempdosya.Length < 10)
+                tempdosya = "*";
+            tempdosya += dizi_link;
+            tempdosya += "*";
+            File.WriteAllText(path, tempdosya);
         }
 
 
