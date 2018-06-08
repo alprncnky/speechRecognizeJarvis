@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Automation;
 
 namespace speechRecognizeJarvis
 {
@@ -15,7 +17,7 @@ namespace speechRecognizeJarvis
         string path = "..\\..\\..\\logs\\dizi.txt";
         string dizi_name = "";      // findName() de bulundu
         string dizi_link = "";      // netten gelen link
-        string o_link = "";         // dosyadan gelen link
+        public string o_link = "";         // dosyadan gelen link
         public int input_dizi_sezon, saved_dizi_sezon;               // gelen ve kayitli dizinin kacinci sezon oldugu
         public int input_dizi_bolum, saved_dizi_bolum;               // gelen ve kayitli  dizinin kacinci bolum oldugu
         int silinecekLine_start, silinecekLine_son;             // en son dosya guncellenirken bu satır araligini yazdirma !
@@ -28,6 +30,55 @@ namespace speechRecognizeJarvis
             if(!File.Exists(path))
                 File.WriteAllText(path,"");
         }
+
+
+        public string diziGetir(string dizi_str)
+        {
+            o_link = "";
+            string readText = System.IO.File.ReadAllText(path);
+            dizi_link = dizi_str;
+            findName();
+            if(readText.Contains(dizi_name))
+            {
+                int temp = readText.IndexOf(dizi_name);
+                while (readText[temp] != '*')
+                    temp--;
+                temp = temp + 1;
+                silinecekLine_start = temp;         // yıldızdan sonraki harf
+                while (readText[temp] != '*')
+                    temp++;
+                silinecekLine_son = temp;       // yıldız dahil
+                for (int i = silinecekLine_start; i < silinecekLine_son; i++)
+                {
+                    o_link += readText[i];
+                }
+            }
+            return o_link;
+        }
+
+
+        public string GetActiveTabUrl()
+        {
+            Process[] procsChrome = Process.GetProcessesByName("chrome");
+
+            if (procsChrome.Length <= 0)
+                return null;
+
+            foreach (Process proc in procsChrome)
+            {
+                // the chrome process must have a window 
+                if (proc.MainWindowHandle == IntPtr.Zero)
+                    continue;
+
+                // to find the tabs we first need to locate something reliable - the 'New Tab' button 
+                AutomationElement root = AutomationElement.FromHandle(proc.MainWindowHandle);
+                var SearchBar = root.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.NameProperty, "Address and search bar"));
+                if (SearchBar != null)
+                    return (string)SearchBar.GetCurrentPropertyValue(ValuePatternIdentifiers.ValueProperty);
+            }
+            return null;
+        }
+
 
         // chrome kapalıylen calismasi lazim    ! HATA !
         // Bu olay zaman ayarlı task olarak yap
@@ -58,7 +109,6 @@ namespace speechRecognizeJarvis
         }
 
         // netten gelen dizinin adini bul
-        // TODO HATA the-americans/5-sezon tarzi hata name
         public void findName()
         {
             // sezon kelimesini bul sonra 2 itre olunca toplamay basla / olunca dur

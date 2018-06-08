@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Security.Permissions;
 using System.Data.SQLite;
+using System.Diagnostics;
 
 namespace speechRecognizeJarvis
 {
@@ -26,9 +27,7 @@ namespace speechRecognizeJarvis
         [DllImport("user32.dll")]
         static extern bool SetCursorPos(int X, int Y);
 
-        string path = "..\\..\\..\\data\\jarvis.wav";     // !!! farkli pc de degistir  !!!  jarvis ses dosyasi
-        string oneriler_path = "..\\..\\..\\data\\oneriler.wav";       // !!! farkli pc de degistir  !!!  "hangitur film istersiniz" ses dosyasi
-        string oneritamam_path = "..\\..\\..\\data\\oneritamam.wav";       // !!! farkli pc de degistir  !!!  "hangitur film istersiniz" ses dosyasi
+        string path = "..\\..\\..\\data\\";     // !!! farkli pc de degistir  !!!  ses dosyaları
         string wp_path = @"C:\Users\alperen\AppData\Local\WhatsApp\WhatsApp.exe";        // !!! farkli pc de degistir  !!!  whatsapp.exe calistirmak icin exe konumu
 
         Thread tid1;        // winform islemi icin thread olustur
@@ -98,6 +97,11 @@ namespace speechRecognizeJarvis
                     degistir();
                     break;
 
+                case 8:
+                    // dizi History
+                    dizihistory();
+                    break;
+
                 default:
                     Console.WriteLine("hatalı");
                     break;
@@ -118,7 +122,7 @@ namespace speechRecognizeJarvis
             bool tell = capture.IsOpened;
             capture.Dispose();
 
-            using (var soundPlayer = new SoundPlayer(path))
+            using (var soundPlayer = new SoundPlayer(path+"jarvis.wav"))
             {
                 soundPlayer.Play();
             }
@@ -144,6 +148,7 @@ namespace speechRecognizeJarvis
 
         public void uyku()
         {
+            Console.WriteLine("--uyku()");
             // bilgisyarı uyku moduna geçiriyor
             SetSuspendState(false, true, true);
         }
@@ -160,12 +165,14 @@ namespace speechRecognizeJarvis
 
         public void youtube()
         {
+            Console.WriteLine("--youtube()");
             // youtube aciliyor
             System.Diagnostics.Process.Start("http://www.youtube.com");
         }
 
         public void whatsapp()
         {
+            Console.WriteLine("--whatsapp()");
             // whatsapp.exe calistiriliyor
             System.Diagnostics.Process.Start(wp_path);
         }
@@ -173,10 +180,11 @@ namespace speechRecognizeJarvis
 
         public void filmgetir()
         {
+            Console.WriteLine("--filmgetir()");
             // filmler listeleniyor
             //ses
             // pencerede ac film resmini ve ismini
-            using (var soundPlayer = new SoundPlayer(oneriler_path))
+            using (var soundPlayer = new SoundPlayer(path+"oneriler.wav"))
             {
                 soundPlayer.Play();
             }
@@ -205,6 +213,7 @@ namespace speechRecognizeJarvis
 
         public void degistir()
         {
+            Console.WriteLine("--degistir()");
             // yeni film oneri
             int filmturu = rastgele_sayi(3) + 1;        //   hangi iflm?  1=bilimurgu 2=aksiyon 3=savas
             filmNo++;          // elimzdeki film sayısını asmamak icin deger tut
@@ -234,17 +243,53 @@ namespace speechRecognizeJarvis
             else
             {
                 // ses oneriler tamamlandı
-                using (var soundPlayer = new SoundPlayer(oneritamam_path))
+                using (var soundPlayer = new SoundPlayer(path+"oneritamam.wav"))
                 {
                     soundPlayer.Play();
                 }
             }
         }
 
+
+        // dizi sitesi acikken kaldigin bolumu istediginde bu fonk cagir
         public void dizihistory()
         {
-            Dizihistory dizinesne = new Dizihistory();
-            dizinesne.chrome_history();
+            Console.WriteLine("--dizihistory()");
+
+            Process[] chromeInstances = Process.GetProcessesByName("chrome");
+            if (chromeInstances.Length > 0)             // chrome calisiyorsa gir yoksa hata alir program
+            {
+                Dizihistory dizinesne = new Dizihistory();
+                // hemen bakiyorum ses
+                using (var soundPlayer = new SoundPlayer(path + "hemenbakıyorum.wav"))
+                {
+                    soundPlayer.Play();
+                }
+                Console.WriteLine("***** Hangi dizi arastiriliyor...");
+                string dizi = dizinesne.GetActiveTabUrl();
+                if (dizinesne.diziGetir(dizi).Length > 5)
+                {
+                    // iyi seyirler ses
+                    using (var soundPlayer = new SoundPlayer(path + "iyiseyirler.wav"))
+                    {
+                        soundPlayer.Play();
+                    }
+                    Console.WriteLine("***** dizi aciliyor...");
+                    System.Diagnostics.Process.Start(dizinesne.o_link);
+                }
+                else
+                {
+                    // dizi kayitlarda yok ses
+                    using (var soundPlayer = new SoundPlayer(path + "dizikayıtlardayok.wav"))
+                    {
+                        soundPlayer.Play();
+                    }
+                    Console.WriteLine("***** dizi kayitlarda yok ...");
+                }
+            }
+            else
+                Console.WriteLine("chrome calismiyor");
+            
         }
 
 

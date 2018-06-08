@@ -106,7 +106,7 @@ namespace speechRecognizeJarvis
                     Console.WriteLine("- - - " + gelenKelime);
                     break;
                 }
-                if (String.Equals(komutlar11[i], gelenKelime, StringComparison.OrdinalIgnoreCase))   // - stringler ikisi eşitse
+                if (gelenKelime.Contains(komutlar11[i]))   // string in icinde varsa
                 {
                     number = i;
                     Console.WriteLine("- - - " + gelenKelime);

@@ -24,7 +24,7 @@ namespace speechRecognizeJarvis
         static bool activate;
 
         static void Main(string[] args)
-        {          
+        {
             activate = false;
             t = 0;
             t2 = 0;
