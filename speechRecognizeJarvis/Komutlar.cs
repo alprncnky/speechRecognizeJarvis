@@ -8,25 +8,37 @@ namespace speechRecognizeJarvis
 {
     class Komutlar
     {
-        // yeni komut olursa bu string lere olusabilecek ses leri ekle
-        //TODO : bunları dosyaya aktar
         public int komutSayisi;
-        string[] komutlar1 = { "Jurors", ": who",   "We have" , "ZZ" ,      "you"           ,"wants so"     , "favor", "dishes", "vhvvv" };         // birebir eşit olan
-        string[] komutlar2 = { "Jones",  ":"    ,   "will have" , "disease" ,    "to"       ,"loss of"      , "fewer", "BHD", "vhvvv" };         // birebir eşit olan
-        string[] komutlar3 = { "just",   ": if" ,   "one" , "diseases" ,     "knew"         ,"muscle"       , "to human", "before", "vhvvv" };         // birebir eşit olan
-        string[] komutlar4 = { "Joe's",  "for" ,    "11" , "dispatch" ,     "know"          ,"listen"       , "human", "basis", "vhvvv" };         // birebir eşit olan
-        string[] komutlar5 = { "jazz","homes" , "one have" ,    "the season" , "wexrdctf"   ,"was a"        , "feeding", "DH", "vhvvv" };        // birebir eşit olan
-        string[] komutlar6 = { "DOS", "former" ,    "would have" , "season", "wexrdctfv"    ,"Wilson"       , "feel", "fish", "vhvvv" };
-        string[] komutlar7 = { "germs", "Portland" ,"with" , "large", "wexrdctfvy"          ,"will see"     , "few", "dish", "vhvvv" };
-        string[] komutlar8 = { "James", ": school" ,"to have" , "zero", "wexrdctfvun"       ,"fdsfs"        , "fitting", "issue", "vhvvv" };
-        string[] komutlar9 = { "Jacques", "forms", "than have" , "easy", "wexrdctfvyn"      ,"fdsfs"        , "feet", "beach", "vhvvv" };
-        string[] komutlar10 = { "jackie", "four", "one more", "to dispatch", "wexrdctfvn"       ,"lots of"  , "team", "based", "vhvvv" };
-        string[] komutlar11 = { "generous", "formed", "when" , "ZF", "wexrdctfv"        , "wants"           , "fee", "each", "vhvvv" };         // birebir eşit olan
-        string[] komutlar12 = { "jytvbnun", "jytvbnun", "who have", "search", "wexrdctf"    , "also"        , "fever", "gets", "vhvvv" };         // birebir eşit olan
+
+        public List<string> komutlar1 = new List<string>();
+        public List<string> komutlar2 = new List<string>();
+        public List<string> komutlar3 = new List<string>();
+        public List<string> komutlar4 = new List<string>();
+        public List<string> komutlar5 = new List<string>();
+        public List<string> komutlar6 = new List<string>();
+        public List<string> komutlar7 = new List<string>();
+        public List<string> komutlar8 = new List<string>();
+        public List<string> komutlar9 = new List<string>();
+        public List<string> komutlar10 = new List<string>();
+        public List<string> komutlar11 = new List<string>();
+        public List<string> komutlar12 = new List<string>();
 
         public Komutlar()
         {
-            komutSayisi = komutlar1.Length;
+            KomutDosyasi k = new KomutDosyasi();
+            komutlar1 = k.D_komutlar1;
+            komutlar2 = k.D_komutlar2;
+            komutlar3 = k.D_komutlar3;
+            komutlar4 = k.D_komutlar4;
+            komutlar5 = k.D_komutlar5;
+            komutlar6 = k.D_komutlar6;
+            komutlar7 = k.D_komutlar7;
+            komutlar8 = k.D_komutlar8;
+            komutlar9 = k.D_komutlar9;
+            komutlar10 = k.D_komutlar10;
+            komutlar11 = k.D_komutlar11;
+            komutlar12 = k.D_komutlar12;
+            komutSayisi = komutlar1.Count;
         }
 
         public int komutBul(string gelenKelime)         // gelen kelime komut stringlerinden birine eslestirip hangi komut olduguna gore sayi donduruyor.

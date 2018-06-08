@@ -91,6 +91,7 @@
     </Compile>
     <Compile Include="html.cs" />
     <Compile Include="Islemler.cs" />
+    <Compile Include="KomutDosyasi.cs" />
     <Compile Include="Komutlar.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

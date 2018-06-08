@@ -24,7 +24,7 @@ namespace speechRecognizeJarvis
         static bool activate;
 
         static void Main(string[] args)
-        {
+        {          
             activate = false;
             t = 0;
             t2 = 0;
@@ -35,7 +35,6 @@ namespace speechRecognizeJarvis
             engine.RecognizeAsync(RecognizeMode.Multiple);
             engine.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(engine_SpeechRecognized);
             Console.ReadLine();
-            
         }
 
         static void engine_SpeechRecognized(object ob, SpeechRecognizedEventArgs e)
