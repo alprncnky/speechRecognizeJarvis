@@ -45,74 +45,74 @@ namespace speechRecognizeJarvis
             {
                 if (String.Equals(komutlar1[i], gelenKelime, StringComparison.OrdinalIgnoreCase))   // - stringler ikisi eşitse
                 {
+                    Console.WriteLine("if eslesmesi :" + komutlar1[i]);
                     number = i;
-                    Console.WriteLine("- - - " + gelenKelime);
                     break;
                 }
                 if (String.Equals(komutlar2[i], gelenKelime, StringComparison.OrdinalIgnoreCase))   // - stringler ikisi eşitse
                 {
+                    Console.WriteLine("if eslesmesi :" + komutlar2[i]);
                     number = i;
-                    Console.WriteLine("- - - "+gelenKelime);
                     break;
                 }
                 if (String.Equals(komutlar3[i], gelenKelime, StringComparison.OrdinalIgnoreCase))   // - stringler ikisi eşitse
                 {
+                    Console.WriteLine("if eslesmesi :" + komutlar3[i]);
                     number = i;
-                    Console.WriteLine("- - - " + gelenKelime);
                     break;
                 }
                 if (String.Equals(komutlar4[i], gelenKelime, StringComparison.OrdinalIgnoreCase))   // - stringler ikisi eşitse
                 {
+                    Console.WriteLine("if eslesmesi :" + komutlar4[i]);
                     number = i;
-                    Console.WriteLine("- - - " + gelenKelime);
                     break;
                 }
                 if (String.Equals(komutlar5[i], gelenKelime, StringComparison.OrdinalIgnoreCase))   // - stringler ikisi eşitse
                 {
+                    Console.WriteLine("if eslesmesi :" + komutlar5[i]);
                     number = i;
-                    Console.WriteLine("- - - " + gelenKelime);
                     break;
                 }
                 if (gelenKelime.Contains(komutlar6[i]))   // string in icinde varsa
                 {
+                    Console.WriteLine("if eslesmesi :" + komutlar6[i]);
                     number = i;
-                    Console.WriteLine("- - - " + gelenKelime);
                     break;
                 }
                 if (gelenKelime.Contains(komutlar7[i]))   // string in icinde varsa
                 {
+                    Console.WriteLine("if eslesmesi :" + komutlar7[i]);
                     number = i;
-                    Console.WriteLine("- - - " + gelenKelime);
                     break;
                 }
                 if (gelenKelime.Contains(komutlar8[i]))   // string in icinde varsa
                 {
+                    Console.WriteLine("if eslesmesi :" + komutlar8[i]);
                     number = i;
-                    Console.WriteLine("- - - " + gelenKelime);
                     break;
                 }
                 if (gelenKelime.Contains(komutlar9[i]))   // string in icinde varsa
                 {
+                    Console.WriteLine("if eslesmesi :" + komutlar9[i]);
                     number = i;
-                    Console.WriteLine("- - - " + gelenKelime);
                     break;
                 }
                 if (gelenKelime.Contains(komutlar10[i]))   // string in icinde varsa
                 {
+                    Console.WriteLine("if eslesmesi :" + komutlar10[i]);
                     number = i;
-                    Console.WriteLine("- - - " + gelenKelime);
                     break;
                 }
                 if (gelenKelime.Contains(komutlar11[i]))   // string in icinde varsa
                 {
+                    Console.WriteLine("if eslesmesi :" + komutlar11[i]);
                     number = i;
-                    Console.WriteLine("- - - " + gelenKelime);
                     break;
                 }
                 if (String.Equals(komutlar12[i], gelenKelime, StringComparison.OrdinalIgnoreCase))   // - stringler ikisi eşitse
                 {
+                    Console.WriteLine("if eslesmesi :" + komutlar12[i]);
                     number = i;
-                    Console.WriteLine("- - - " + gelenKelime);
                     break;
                 }
             }

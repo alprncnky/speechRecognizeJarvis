@@ -32,7 +32,7 @@ namespace speechRecognizeJarvis
         static void engine_SpeechRecognized(object ob, SpeechRecognizedEventArgs e)
         {
             string word = e.Result.Text.ToString();
-            Console.WriteLine(word);
+            Console.WriteLine("gelen input :"+word);
             int sayi= n.komutBul(word);         // gelen ses in hangi komut oldugunun sayisi bulundu //  "0" gelirse jarvis , "-1" gelirse kelime bulunamadı demek
 
             if (sayi == 0)                // jarvis seslenmisse zamanı tut
