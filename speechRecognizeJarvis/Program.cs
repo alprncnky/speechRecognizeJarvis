@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Speech;
 using System.Speech.Recognition;
-using WindowsInput;
-using Emgu.CV;
-using System.Drawing;
-using System.IO;
+
 
 namespace speechRecognizeJarvis
 {
@@ -34,7 +26,7 @@ namespace speechRecognizeJarvis
             engine.LoadGrammar(g);
             engine.RecognizeAsync(RecognizeMode.Multiple);
             engine.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(engine_SpeechRecognized);
-            Console.ReadLine();
+            Console.ReadLine();       
         }
 
         static void engine_SpeechRecognized(object ob, SpeechRecognizedEventArgs e)

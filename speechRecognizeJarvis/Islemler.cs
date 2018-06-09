@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WindowsInput;
 using Emgu.CV;
-using static System.Net.Mime.MediaTypeNames;
 using System.Runtime.InteropServices;
 using System.Media;
-using System.Windows.Forms;
 using System.Threading;
-using System.Security.Permissions;
-using System.Data.SQLite;
 using System.Diagnostics;
 
 namespace speechRecognizeJarvis
@@ -98,6 +90,12 @@ namespace speechRecognizeJarvis
                     break;
 
                 case 8:
+                    // dizi History
+                    dizihistory();
+                    break;
+
+                case 9:
+                    // TEKRAR komut sayisi yeterli gelmedi
                     // dizi History
                     dizihistory();
                     break;
@@ -211,6 +209,7 @@ namespace speechRecognizeJarvis
                 f.Show();
             }
 
+
         public void degistir()
         {
             Console.WriteLine("--degistir()");
@@ -265,7 +264,6 @@ namespace speechRecognizeJarvis
                 {
                     soundPlayer.Play();
                 }
-                Console.WriteLine("***** Hangi dizi arastiriliyor...");
                 string dizi = dizinesne.GetActiveTabUrl();
                 if (dizinesne.diziGetir(dizi).Length > 5)
                 {
@@ -298,6 +296,5 @@ namespace speechRecognizeJarvis
             int randomNumber = random.Next(0,max);
             return randomNumber;
         }
-
     }
 }

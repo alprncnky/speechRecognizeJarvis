@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Automation;
 
 namespace speechRecognizeJarvis
@@ -23,6 +19,7 @@ namespace speechRecognizeJarvis
         int silinecekLine_start, silinecekLine_son;             // en son dosya guncellenirken bu satır araligini yazdirma !
         bool outputmu = false;                                // Dizinfo() fonksiyonuna sonradan matchedDizi() fonksiyonundan erisim olursa diye bunu ekledim sonradan
         string tempdosya = "";                               // dosyaya yazdırılcak olan string guncellenmeis olan
+        public string send = "";
 
         public Dizihistory()
         {
@@ -34,23 +31,27 @@ namespace speechRecognizeJarvis
 
         public string diziGetir(string dizi_str)
         {
+            Console.WriteLine("--Dizi getir()");
             o_link = "";
             string readText = System.IO.File.ReadAllText(path);
             dizi_link = dizi_str;
             findName();
-            if(readText.Contains(dizi_name))
+            if (dizi_name.Length > 5)
             {
-                int temp = readText.IndexOf(dizi_name);
-                while (readText[temp] != '*')
-                    temp--;
-                temp = temp + 1;
-                silinecekLine_start = temp;         // yıldızdan sonraki harf
-                while (readText[temp] != '*')
-                    temp++;
-                silinecekLine_son = temp;       // yıldız dahil
-                for (int i = silinecekLine_start; i < silinecekLine_son; i++)
+                if (readText.Contains(dizi_name))
                 {
-                    o_link += readText[i];
+                    int temp = readText.IndexOf(dizi_name);
+                    while (readText[temp] != '*')
+                        temp--;
+                    temp = temp + 1;
+                    silinecekLine_start = temp;         // yıldızdan sonraki harf
+                    while (readText[temp] != '*')
+                        temp++;
+                    silinecekLine_son = temp;       // yıldız dahil
+                    for (int i = silinecekLine_start; i < silinecekLine_son; i++)
+                    {
+                        o_link += readText[i];
+                    }
                 }
             }
             return o_link;
@@ -78,7 +79,6 @@ namespace speechRecognizeJarvis
             }
             return null;
         }
-
 
         // chrome kapalıylen calismasi lazim    ! HATA !
         // Bu olay zaman ayarlı task olarak yap
@@ -114,25 +114,28 @@ namespace speechRecognizeJarvis
             // sezon kelimesini bul sonra 2 itre olunca toplamay basla / olunca dur
             dizi_name = "";
             string temp = "";
-            int sLoc = dizi_link.IndexOf("sezon");
-            int tireCount = 0;
-            int slash = 0;
-            while (slash<2)
+            if (dizi_link.Contains("sezon") && dizi_link.Contains("bolum") && dizi_link.Contains("dizi"))
             {
-                if (dizi_link[sLoc] == '/')
-                    slash++;
-                if (tireCount > 1 && slash<2)
-                    temp += dizi_link[sLoc];
-                if (dizi_link[sLoc] == '-' || dizi_link[sLoc] == '/')
+                int sLoc = dizi_link.IndexOf("sezon");
+                int tireCount = 0;
+                int slash = 0;
+                while (slash < 2)
                 {
-                    tireCount++;
+                    if (dizi_link[sLoc] == '/')
+                        slash++;
+                    if (tireCount > 1 && slash < 2)
+                        temp += dizi_link[sLoc];
+                    if (dizi_link[sLoc] == '-' || dizi_link[sLoc] == '/')
+                    {
+                        tireCount++;
+                    }
+                    sLoc--;
                 }
-                sLoc--;
+                char[] arr = temp.ToCharArray();
+                Array.Reverse(arr);
+                temp = new string(arr);
+                dizi_name = temp;
             }
-            char[] arr = temp.ToCharArray();
-            Array.Reverse(arr);
-            temp = new string(arr);
-            dizi_name = temp;
         }
 
 
