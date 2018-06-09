@@ -95,7 +95,7 @@ namespace speechRecognizeJarvis
                     break;
 
                 case 9:
-                    // TEKRAR komut sayisi yeterli gelmedi
+                    // case 8:  TEKRAR ! komut sayisi yeterli gelmedi
                     // dizi History
                     dizihistory();
                     break;

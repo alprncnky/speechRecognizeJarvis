@@ -17,6 +17,10 @@ namespace speechRecognizeJarvis
 
         static void Main(string[] args)
         {
+            // her 30 dakikada bir calistir
+            TimerSınıf tnesne = new TimerSınıf();
+            tnesne.zaman(30, 1);
+
             activate = false;
             t = 0;
             t2 = 0;
