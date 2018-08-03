@@ -236,54 +236,61 @@ namespace speechRecognizeJarvis
         // gelen linke göre sezon ve bolum sayisini bul
         public void Dizinfo()
         {
-            string d_link = "";
-            if (outputmu)
-                d_link = o_link;
-            else
-                d_link = dizi_link;
-            // kacıncı sezon oldugunu bul yaptigi kisim     example/    "www.dizi.com/dizi-adi-3-sezon-15-bolum" burdaki sezon sayisi yani 3 u bulmaktir.
-            int sezonLoc = d_link.IndexOf("sezon");      // sezon kelimesinin konumu
-            int temp = sezonLoc;                            // while icinde dolanacagı icin temp int
-            int tirecount = 0;                              // ' - ' sayısının tutan deger
-            while (tirecount < 2)                              // geri dogru git
+            try
             {
-                temp--;
-                if (d_link[temp] == '-' || d_link[temp]=='/')
-                {
-                    tirecount++;
-                }
-            }
-            temp++;
-            string dizi_sezon = "";
-            while (d_link[temp] != '-')
-            {
-                dizi_sezon += d_link[temp];
-                temp++;
-            }
-            if (outputmu)
-                saved_dizi_sezon= Convert.ToInt32(dizi_sezon);
-            else
-                input_dizi_sezon = Convert.ToInt32(dizi_sezon);
-
-            // kacıncı bolum oldugunu bul yaptigi kisim     example/    "www.dizi.com/dizi-adi-3-sezon-15-bolum" burdaki bolum sayisi yani 15 i bulmaktir.
-            temp = sezonLoc + 6;
-            tirecount = 0;
-            string dizi_bolum = "";
-            while (tirecount < 1)
-            {
-                if (d_link[temp] == '-')
-                    tirecount++;
+                string d_link = "";
+                if (outputmu)
+                    d_link = o_link;
                 else
+                    d_link = dizi_link;
+                // kacıncı sezon oldugunu bul yaptigi kisim     example/    "www.dizi.com/dizi-adi-3-sezon-15-bolum" burdaki sezon sayisi yani 3 u bulmaktir.
+                int sezonLoc = d_link.IndexOf("sezon");      // sezon kelimesinin konumu
+                int temp = sezonLoc;                            // while icinde dolanacagı icin temp int
+                int tirecount = 0;                              // ' - ' sayısının tutan deger
+                while (tirecount < 2)                              // geri dogru git
                 {
-                    dizi_bolum += d_link[temp];
+                    temp--;
+                    if (d_link[temp] == '-' || d_link[temp] == '/')
+                    {
+                        tirecount++;
+                    }
+                }
+                temp++;
+                string dizi_sezon = "";
+                while (d_link[temp] != '-')
+                {
+                    dizi_sezon += d_link[temp];
                     temp++;
                 }
+                if (outputmu)
+                    saved_dizi_sezon = Convert.ToInt32(dizi_sezon);
+                else
+                    input_dizi_sezon = Convert.ToInt32(dizi_sezon);
+
+                // kacıncı bolum oldugunu bul yaptigi kisim     example/    "www.dizi.com/dizi-adi-3-sezon-15-bolum" burdaki bolum sayisi yani 15 i bulmaktir.
+                temp = sezonLoc + 6;
+                tirecount = 0;
+                string dizi_bolum = "";
+                while (tirecount < 1)
+                {
+                    if (d_link[temp] == '-')
+                        tirecount++;
+                    else
+                    {
+                        dizi_bolum += d_link[temp];
+                        temp++;
+                    }
+                }
+                if (outputmu)
+                    saved_dizi_bolum = Convert.ToInt32(dizi_bolum);
+                else
+                    input_dizi_bolum = Convert.ToInt32(dizi_bolum);
+                outputmu = false;
             }
-            if (outputmu)
-                saved_dizi_bolum= Convert.ToInt32(dizi_bolum);
-            else
-                input_dizi_bolum = Convert.ToInt32(dizi_bolum);
-            outputmu = false;
+            catch(Exception e)
+            {
+                Console.WriteLine("/////   HATA dizinfo()  /////");
+            }
         }
 
     }

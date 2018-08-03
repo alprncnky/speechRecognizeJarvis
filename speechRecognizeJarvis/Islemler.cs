@@ -20,7 +20,7 @@ namespace speechRecognizeJarvis
         static extern bool SetCursorPos(int X, int Y);
 
         string path = "..\\..\\..\\data\\";     // !!! farkli pc de degistir  !!!  ses dosyaları
-        string wp_path = @"C:\Users\alperen\AppData\Local\WhatsApp\WhatsApp.exe";        // !!! farkli pc de degistir  !!!  whatsapp.exe calistirmak icin exe konumu
+        string wp_path = @"C:\Users\Alperen\AppData\Local\WhatsApp\WhatsApp.exe";        // !!! farkli pc de degistir  !!!  whatsapp.exe calistirmak icin exe konumu
 
         Thread tid1;        // winform islemi icin thread olustur
         Random random = new Random();   // for random number
@@ -100,6 +100,16 @@ namespace speechRecognizeJarvis
                     dizihistory();
                     break;
 
+                case 10:
+                    // case 3: TEKRAR ! komut sayisi yeterli gelmedi
+                    diziler();
+                    break;
+
+                case 11:
+                    // facebook 
+                    facebook();
+                    break;
+
                 default:
                     Console.WriteLine("hatalı");
                     break;
@@ -108,6 +118,12 @@ namespace speechRecognizeJarvis
 
 
         //- - - - FONKSIYONLAR - - - -
+
+        public void facebook()
+        {
+            System.Diagnostics.Process.Start("https://www.facebook.com/");
+        }
+
 
         public void jarvis()
         {
@@ -156,8 +172,7 @@ namespace speechRecognizeJarvis
             // dizi siteleri aciliyor
             Console.WriteLine("Yeahhh");
             System.Diagnostics.Process.Start("http://www.dizibox5.com");
-            System.Diagnostics.Process.Start("http://www.dizist1.com");
-            System.Diagnostics.Process.Start("http://www.dizipub.com");
+            System.Diagnostics.Process.Start("https://www.dizist.org/");
             System.Diagnostics.Process.Start("http://www.dizimag5.co");
         }
 
@@ -212,40 +227,48 @@ namespace speechRecognizeJarvis
 
         public void degistir()
         {
-            Console.WriteLine("--degistir()");
-            // yeni film oneri
-            int filmturu = rastgele_sayi(3) + 1;        //   hangi iflm?  1=bilimurgu 2=aksiyon 3=savas
-            filmNo++;          // elimzdeki film sayısını asmamak icin deger tut
+            try
+            {
+                Console.WriteLine("--degistir()");
+                // yeni film oneri
+                int filmturu = rastgele_sayi(3) + 1;        //   hangi iflm?  1=bilimurgu 2=aksiyon 3=savas
+                filmNo++;          // elimzdeki film sayısını asmamak icin deger tut
 
-            tid1.Abort();               // onceki acik pencereyi kapat
-            SetCursorPos(960, 540);
-            if (filmNo < 8)
-            {
-                if (filmturu == 1)
+                tid1.Abort();               // onceki acik pencereyi kapat
+                SetCursorPos(960, 540);
+                if (filmNo < 8)
                 {
-                    filmName = h.filmIsimleri[filmNo];
-                    filmPhoto = h.filmresimleri[filmNo];
+                    if (filmturu == 1)
+                    {
+                        filmName = h.filmIsimleri[filmNo];
+                        filmPhoto = h.filmresimleri[filmNo];
+                    }
+                    if (filmturu == 2)
+                    {
+                        filmName = h2.filmIsimleri[filmNo];
+                        filmPhoto = h2.filmresimleri[filmNo];
+                    }
+                    if (filmturu == 3)
+                    {
+                        filmName = h3.filmIsimleri[filmNo];
+                        filmPhoto = h3.filmresimleri[filmNo];
+                    }
+                    tid1 = new Thread(new ThreadStart(Islemler.Thread1));
+                    tid1.Start();
                 }
-                if (filmturu == 2)
+                else
                 {
-                    filmName = h2.filmIsimleri[filmNo];
-                    filmPhoto = h2.filmresimleri[filmNo];
+                    // ses oneriler tamamlandı
+                    using (var soundPlayer = new SoundPlayer(path + "oneritamam.wav"))
+                    {
+                        soundPlayer.Play();
+                    }
                 }
-                if (filmturu == 3)
-                {
-                    filmName = h3.filmIsimleri[filmNo];
-                    filmPhoto = h3.filmresimleri[filmNo];
-                }
-                tid1 = new Thread(new ThreadStart(Islemler.Thread1));
-                tid1.Start();
             }
-            else
+            catch(Exception e)
             {
-                // ses oneriler tamamlandı
-                using (var soundPlayer = new SoundPlayer(path+"oneritamam.wav"))
-                {
-                    soundPlayer.Play();
-                }
+                Console.WriteLine("//////  HATA degistir()  /////");
+                // degistir komutundan once filim oner calismasi gerekiyor 
             }
         }
 

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
+using System.Runtime.InteropServices;
 using System.Speech.Recognition;
-
+using System.Windows.Forms;
 
 namespace speechRecognizeJarvis
 {
@@ -15,8 +17,28 @@ namespace speechRecognizeJarvis
         static int t2;
         static bool activate;
 
+        [DllImport("kernel32.dll")]
+        static extern IntPtr GetConsoleWindow();
+
+        [DllImport("user32.dll")]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
         static void Main(string[] args)
         {
+            
+            const int SW_HIDE = 0;
+            // const int SW_SHOW = 5;   // show icin deger
+            var handle = GetConsoleWindow();
+            // Hide
+            ShowWindow(handle, SW_HIDE);
+            // Show
+            // ShowWindow(handle, SW_SHOW);      
+                 
+            // program pc acildiginda otomatik acilma
+            RegistryKey rk = Registry.CurrentUser.OpenSubKey                // Burasi pc acildiginda auto baslatmak icin
+            ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            rk.SetValue("speechRecognizeJarvis", Application.ExecutablePath);
+
             // her 30 dakikada bir calistir
             TimerSınıf tnesne = new TimerSınıf();
             tnesne.zaman(30, 1);
